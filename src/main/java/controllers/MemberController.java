@@ -19,10 +19,9 @@ public class MemberController {
     @GetMapping
     public ResponseEntity getAllMembers(
             @RequestParam(required = false, name = "sessionId") Long memberId
-    ){
-        if(memberId != null){
-            return new ResponseEntity(memberRepository.findAllByBookingsSessionId(sessionId), HttpStatus.OK);
-        }
+    ) {
+        if (memberId != null) {
             return new ResponseEntity(memberRepository.findAll(), HttpStatus.OK);
+        }
     }
 }
