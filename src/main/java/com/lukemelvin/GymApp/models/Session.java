@@ -1,4 +1,4 @@
-package models;
+package com.lukemelvin.GymApp.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -24,6 +24,10 @@ public class Session {
 
     @JsonBackReference
     @ManyToMany
-    private Set<Member> sessions;
+    @JoinTable(
+            name = "bookings",
+            joinColumns = @JoinColumn(name = "sessionId"),
+            inverseJoinColumns = @JoinColumn(name = "memberId"))
+    private Set<Member> bookedMembers;
 
 }
