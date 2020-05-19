@@ -26,11 +26,3 @@ public class SessionController {
     }
 
 }
-
-
-//    {
-//        if(memberId != null) {
-//
-//        }
-//    }
-//}
