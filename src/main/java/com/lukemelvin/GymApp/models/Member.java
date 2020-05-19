@@ -1,6 +1,11 @@
 package com.lukemelvin.GymApp.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.lukemelvin.GymApp.enums.Goal;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,21 +23,24 @@ public class Member {
     private String lastName;
 
     @Column(name = "goal")
-    private String goal;
+    private Goal goal;
 
     @JsonBackReference
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(
             name = "bookings",
             joinColumns = @JoinColumn(name = "memberId"),
             inverseJoinColumns = @JoinColumn(name = "sessionId"))
-    private Set<Session> bookedSessions;
+    private Set<Session> sessions = new HashSet<>();
 
-    public Member(String firstName, String lastName, String goal) {
+    public Member(String firstName, String lastName, Goal goal) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.goal = goal;
-//        this.bookings = new ArrayList<>();
     }
 
     public Member() {
@@ -62,11 +70,19 @@ public class Member {
         this.lastName = lastName;
     }
 
-    public String getGoal() {
+    public Goal getGoal() {
         return goal;
     }
 
-    public void setGoal(String goal) {
+    public void setGoal(Goal goal) {
         this.goal = goal;
+    }
+
+    public Set<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
     }
 }
